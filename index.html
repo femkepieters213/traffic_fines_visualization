@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Scatterplot</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/d3@5.6.0/dist/d3.min.js"></script>
+  </head>
+  <body>
+    <div class="controls">
+      <label for="sortSelect">Sort cases by:</label>
+
+    
+      <select id="sortSelect">
+        <option value="startTime">Start time</option>
+        <option value="duration">Case duration</option>
+        <option value="eventCount">Number of events</option>
+        <option value="fineAmount">Initial fine amount</option>
+      </select>
+
+      <label for="sortDirection">Order:</label>
+
+      <select id="sortDirection">
+        <option value="ascending">Ascending</option>
+        <option value="descending">Descending</option>
+      </select>
+      
+      <label for="timeMode">Time view:</label>
+
+      <select id="timeMode">
+        <option value="absolute">Absolute time</option>
+        <option value="relative">Relative time</option>
+      </select>
+
+      <button id = "resetZoom">Reset zoom</button>
+    </div>
+
+  <div class="visualizationArea">
+
+  <div class="chartArea">
+    <svg width="960" height="500"></svg>
+  </div>
+
+
+<div class="filterArea">
+  <div class="filterPanels">
+
+  <!-- ACTIVITIES PANEL -->
+  <div class="legendPanel">
+
+    <div class="legendTitle">Activities</div>
+
+    <button id="resetActivities">
+      Show all activities
+    </button>
+
+    <div id="activityLegend"></div>
+
+    <div class="eventFilterSelection">
+      <div class="legendTitle">Event positions</div>
+
+      <label class="eventFilterItem">
+        <input type="checkbox" id="highlightStart">
+        Start events
+      </label>
+
+      <label class="eventFilterItem">
+        <input type="checkbox" id="highlightEnd">
+        End events
+      </label>
+    </div>
+
+  </div>
+
+  <!-- CASES PANEL -->
+  <div class="casePanel">
+
+    <div class="legendTitle">Cases</div>
+
+    <div class="caseFilterSection">
+      <div class="caseFilterTitle">
+        Initial fine amount
+      </div>
+
+      <div class="amountInputs">
+        <div>
+          <label for="minAmount">Minimum</label>
+          <input
+            type="number"
+            id="minAmount"
+            step="2"
+            value="18.78"
+          >
+        </div>
+
+        <div>
+          <label for="maxAmount">Maximum</label>
+          <input
+            type="number"
+            id="maxAmount"
+            step="2"
+            value="687.75"
+          >
+        </div>
+      </div>
+
+      <div class="amountSliders">
+
+        <div class="amountSliderTrack"></div>
+        <div class="amountSliderSelected"></div>
+
+        <input
+          type="range"
+          id="minAmountSlider"
+          min="0"
+          max="1000"
+          step="1"
+          value="0"
+          aria-label="Minimum fine amount"
+        >
+
+        <input
+          type="range"
+          id="maxAmountSlider"
+          min="0"
+          max="1000"
+          step="1"
+          value="1000"
+          aria-label="Maximum fine amount"
+        >
+      </div>
+
+      <div class="amountSliderLabels" id="amountSliderLabels"></div>
+
+    </div>
+
+
+    <!-- CASE DURATION FILTER-->
+     <div class="caseFilterSelection">
+
+      <div class="caseFilterTitle">Case duration</div>
+
+      <div class="durationInputs">
+
+        <div>
+          <label for="minDuration">Minimum (days)</label>
+          <input
+            type="number"
+            id="minDuration"
+            step="0.1"
+            >          
+        </div>
+
+        <div>
+          <label for="maxDuration">Maximum (days)</label>
+          <input
+            type="number"
+            id="maxDuration"
+            step="0.1"
+            >
+        </div>
+
+      </div>
+
+      <div class="durationSliders">
+
+        <div class="durationSliderTrack"></div>
+        <div class="durationSliderSelected"></div>
+
+        <input
+          type="range"
+          id="minDurationSlider"
+          min="0"
+          max="1000"
+          value="0"
+          aria-label="Minimum case duration"
+          >
+
+        <input
+          type="range"
+          id="maxDurationSlider"
+          min="0"
+          max="1000"
+          step="1"
+          value="1000"
+          aria-label="Maximum case duration"
+          >
+
+      </div>
+
+      <div
+        class="durationSliderLabels"
+        id="durationSliderLabels">
+      </div>
+
+     </div>
+
+
+    <!-- ARTICLE -->
+    <div class="caseFilterSection">
+      <div class="caseFilterTitle">Article</div>
+
+      <div class="articleDropdown">
+        <button id="articleDropdownButton">
+          All articles
+        </button>
+
+        <div
+          id="articleDropdownContent"
+          class="articleDropdownContent">
+        </div>
+      </div>
+    </div>
+
+    <button id="resetCaseFilters">
+      Reset case filters
+    </button>
+
+  </div>
+
+  </div> <!-- END FILTER PANELS -->
+
+  <!-- DISPLAY OPTION PANEL-->
+
+  <div class="displayOptionsPanel">
+
+    <div class="displayOptionsTitle">Display options</div>
+
+    <label class="displayOptionsCheckbox">
+      <input type="checkbox" id="showFilteredCases">
+      Show only matching cases
+    </label>
+
+  </div>
+
+  
+
+  <!-- KEY NUMBERS -->
+
+  <div class="keyNumbersPanel">
+
+    <div class="legendTitle">Key numbers</div>
+
+    <div class="keyNumbersGrid">
+
+      <div class="keyNumberCard">
+        <div class="keyNumberValue" id="totalCases">0</div>
+        <div class="keyNumberLabel">Total cases</div>
+      </div>
+
+      <div class="keyNumberCard">
+        <div class="keyNumberValue" id="matchingCases">0</div>
+        <div class="keyNumberLabel">Cases matching case filters</div>
+      </div>
+
+    <div class="keyNumberCard">
+      <div class="keyNumberValue" id="highlightedCases">0</div>
+      <div class="keyNumberLabel">Cases with highlighted events</div>
+    </div>
+
+    </div>
+  </div>
+</div> <!-- END FILTER AREA-->
+
+</div> <!-- END VISALIZATION AREA -->
+
+    <script src="index.js"></script>
+  </body>
+</html>
