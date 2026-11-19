@@ -523,48 +523,65 @@ csv('data_sample_1000.csv').then((data) => {
       ${sequenceHTML}
     `);
 
-
+      // POSITION TOOLTIP WITHIN CHART AREA
       const tooltipNode = tooltip.node();
-
-      const tooltipWidth = tooltipNode.offsetWidth;
-      const tooltipHeight = tooltipNode.offsetHeight;
-
+      const chartRect = document
+        .querySelector('.chartArea')
+        .getBoundingClientRect();
+      
+      const controlsRect = document
+        .querySelector('.controls')
+        .getBoundingClientRect();
+      
       const offset = 12;
-      const margin = 8;
+      const padding = 8;
 
       const mouseX = d3.event.clientX;
       const mouseY = d3.event.clientY;
 
-      // Default position: right and below the cursor
-      let left = mouseX + offset;
-      let top = mouseY + offset;
+      // available boundaries
+      const minLeft = Math.max(chartRect.left, 0) + padding;
+      const maxRight = Math.min(chartRect.right, window.innerWidth) - padding;
 
-      // Move left if there is insufficient space
-      if (left + tooltipWidth > window.innerWidth) {
+      const minTop = Math.max(chartRect.top, controlsRect.bottom, 0) + padding;
+
+      const maxBottom = Math.min(chartRect.bottom, window.innerHeight) - padding;
+
+      // ensure tooltip fits horizontally
+      const availableWidth = Math.max(0, maxRight - minLeft);
+
+      tooltip.style('max-widt', availableWidth + 'px');
+
+      const tooltipWidth = tooltipNode.offsetWidth;
+      const tooltipHeight = tooltipNode.offsetHeight;
+
+      // default position: right of cursor
+      let left = mouseX + offset;
+
+      // move left when insufficient space
+      if (left + tooltipWidth > maxRight) {
         left = mouseX - tooltipWidth - offset;
       }
 
-      // Move up if there is insufficient space
-      if (top + tooltipHeight > window.innerHeight) {
+      // keep within chart boundaries
+      left = Math.max(minLeft, Math.min(left, maxRight - tooltipWidth));
+
+      // default position: below cursor
+      let top = mouseY + offset;
+
+      // move above cursor when insufficient space
+      if (top + tooltipHeight > maxBottom) {
         top = mouseY - tooltipHeight - offset;
       }
 
-      // Keep the tooltip within the window
-      left = Math.max(
-        margin,
-        Math.min(left, window.innerWidth - tooltipWidth - margin)
-      );
+      // keep within available chart height
+      top = Math.max(minTop, Math.min(top, maxBottom - tooltipHeight));
 
-      top = Math.max(
-        margin,
-        Math.min(top, window.innerHeight - tooltipHeight - margin)
-      );
-
-      // Apply position and show tooltip
+      // show tooltip
       tooltip
         .style('left', left + 'px')
         .style('top', top + 'px')
-        .style('visibility', 'visible');
+        .style('visibility', 'visible')
 
     })
 

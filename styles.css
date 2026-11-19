@@ -595,6 +595,8 @@ text {
   line-height: 1.35;
   pointer-events: none;
   z-index: 1000;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
 }
 
 .tooltipSubtitle {
@@ -731,4 +733,169 @@ text {
   border: 1px solid #d9dfe5;
   border-radius: 6px;
   box-sizing: border-box;
+}
+
+/* EXPERIMENT PANEL */
+
+.experimentPanel {
+  width: 340px;
+  flex: 0 0 340px;
+  box-sizing: border-box;
+  padding: 18px;
+  border: 1px solid #d9dfe5;
+  border-radius: 6px;
+  background: white;
+  font-family: sans-serif;
+  font-size: 13px;
+}
+
+.experimentTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.experimentPanel [hidden] {
+  display: none !important;
+}
+
+.experimentPanel label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 7px;
+  color: #635f5d;
+}
+
+#participantId,
+#questionAnswer {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #b5b5b5;
+  border-radius: 4px;
+  padding: 10px;
+  font: 13px sans-serif;
+}
+
+#participantId {
+  margin-bottom: 14px;
+}
+
+#questionAnswer {
+  resize: vertical;
+  min-height: 110px;
+  margin-top: 3px;
+}
+
+.questionProgress {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.progressTrack {
+  height: 5px;
+  background: #e5e9ed;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+#progressFill {
+  height: 100%;
+  width: 0;
+  background: steelblue;
+  transition: width 0.2s ease;
+}
+
+.questionContent {
+  margin-bottom: 24px;
+}
+
+#questionText {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.mentalLoadSection {
+  border-top: 1px solid #ddd;
+  padding-top: 18px;
+  margin-bottom: 24px;
+}
+
+.mentalLoadSection p {
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+
+.mentalLoadScale {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.mentalLoadButton {
+  min-width: 0;
+  height: 30px;
+  padding: 0;
+  background: #f3f5f7;
+  border: 1px solid #d9dfe5;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.mentalLoadButton.selected {
+  background: steelblue;
+  color: white;
+  border-color: steelblue;
+  font-weight: 600;
+}
+
+.mentalLoadLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #777;
+}
+
+#startExperiment,
+#nextQuestion,
+#downloadResults,
+#newParticipant {
+  width: 100%;
+  padding: 11px;
+  background: steelblue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font: 600 13px sans-serif;
+  cursor: pointer;
+}
+
+#nextQuestion:hover,
+#startExperiment:hover,
+#downloadResults:hover {
+  background: #36749c;
+}
+
+#newParticipant {
+  margin-top: 10px;
+  background: #f0f0f0;
+  color: #333;
+  border: 1px solid #b5b5b5;
+}
+
+#experimentMessage {
+  color: #a33;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+#experimentComplete p {
+  line-height: 1.5;
 }

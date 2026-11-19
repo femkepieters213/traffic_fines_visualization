@@ -261,8 +261,77 @@
   </div>
 </div> <!-- END FILTER AREA-->
 
+<!-- EXPERIMENT PANEL -->
+ <div class="experimentPanel">
+
+  <div id="participantSetup">
+    <div class="experimentTitle">Analysis tasks</div>
+    <label for="participantId">Participant ID</label>
+    <input
+      type="text"
+      id="participantId"
+      placeholder="e.g. P001"
+      autocomplete="off"
+    >
+    <button id="startExperiment">Start analysis</button>
+  </div>
+
+  <div id="questionInterface" hidden>
+
+    <div class="questionProgress">
+      <span>Analysis tasks</span>
+      <span id="questionCounter"></span>
+    </div>
+
+    <div class="progressTrack">
+      <div id="progressFill"></div>
+    </div>
+
+    <div class="questionContent">
+      <div class="experimentTitle" id="questionHeading"></div>
+      <div id="questionText"></div>
+
+      <label for="questionAnswer">Your answer</label>
+      <textarea
+        id="questionAnswer"
+        rows="5"
+        placeholder="Type your answer here..."
+        ></textarea>
+    </div>
+
+    <div class="mentalLoudSection">
+      <div class="experimentTitle">Mental load</div>
+
+      <p>
+        How mentally demanding was this question? 
+        Indicate your mental load on a scale from 1 to 10.
+      </p>
+
+      <div class="mentalLoadScale" id="mentalLoadScale"></div>
+
+      <div class="mentalLoadLabels">
+        <span>Very low</span>
+        <span>Very high</span>
+      </div>
+    </div>
+
+    <button id="nextQuestion">Next question</button>
+    <p id="experimentMessage" role="status"></p>
+
+  </div>
+
+  <div id="experimentComplete" hidden>
+    <div class="experimentTitle">Analysis completed</div>
+    <p> Thank you for completing the analysis tasks.</p>
+    <button id="downloadResults">Download results CSV</button>
+    <button id="newParticipant">New participant</button>
+  </div>
+
+ </div>
+
 </div> <!-- END VISALIZATION AREA -->
 
     <script src="index.js"></script>
+    <script src="experiment.js"></script>
   </body>
 </html>
